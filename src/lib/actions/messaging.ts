@@ -138,7 +138,7 @@ export async function getMatchMessages(matchId: string): Promise<MessageResult> 
 
     // Mark messages as read
     await (supabase
-      .from('messages') as any)
+      .from('messages') as any) // eslint-disable-line @typescript-eslint/no-explicit-any
       .update({ is_read: true })
       .eq('match_id', matchId)
       .neq('sender_id', profile.id);
@@ -180,7 +180,7 @@ export async function sendMessage(matchId: string, content: string): Promise<Mes
 
     // Insert the message
     const { data: message, error } = await (supabase
-      .from('messages') as any)
+      .from('messages') as any) // eslint-disable-line @typescript-eslint/no-explicit-any
       .insert({
         match_id: matchId,
         sender_id: profile.id,
@@ -193,7 +193,7 @@ export async function sendMessage(matchId: string, content: string): Promise<Mes
 
     // Update match updated_at
     await (supabase
-      .from('matches') as any)
+      .from('matches') as any) // eslint-disable-line @typescript-eslint/no-explicit-any
       .update({ updated_at: new Date().toISOString() })
       .eq('id', matchId);
 

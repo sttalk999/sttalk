@@ -322,15 +322,17 @@ export async function getAllEntities(): Promise<{
     const { data: entities } = await supabase
       .from('indian_entities')
       .select('*')
-      .order('created_at', { ascending: false }) as { data: Array<{
-        id: string;
-        company_name: string;
-        industry: string | null;
-        stage: string | null;
-        is_verified: boolean;
-        onboarding_completed: boolean;
-        created_at: string;
-      }> | null };
+      .order('created_at', { ascending: false }) as {
+        data: Array<{
+          id: string;
+          company_name: string;
+          industry: string | null;
+          stage: string | null;
+          is_verified: boolean;
+          onboarding_completed: boolean;
+          created_at: string;
+        }> | null
+      };
 
     // Get match counts per entity
     const { data: matches } = await supabase
@@ -368,7 +370,7 @@ export async function verifyEntity(entityId: string): Promise<{
     const supabase = createServerSupabaseClient();
 
     const { error } = await (supabase
-      .from('indian_entities') as any)
+      .from('indian_entities') as any) // eslint-disable-line @typescript-eslint/no-explicit-any
       .update({ is_verified: true })
       .eq('id', entityId);
 

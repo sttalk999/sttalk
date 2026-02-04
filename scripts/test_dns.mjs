@@ -1,4 +1,4 @@
-const dns = require('dns');
+import dns from 'dns';
 const hostname = 'db.ssvhmcufqcswgwdblalk.supabase.co';
 
 console.log(`Looking up ${hostname}...`);

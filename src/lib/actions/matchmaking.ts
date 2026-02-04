@@ -118,8 +118,8 @@ function calculateLocationScore(investorLocation: string): number {
 
   // UK and EU get base score
   if (normalizedLocation.includes('uk') || normalizedLocation.includes('london') ||
-      normalizedLocation.includes('germany') || normalizedLocation.includes('france') ||
-      normalizedLocation.includes('netherlands') || normalizedLocation.includes('europe')) {
+    normalizedLocation.includes('germany') || normalizedLocation.includes('france') ||
+    normalizedLocation.includes('netherlands') || normalizedLocation.includes('europe')) {
     return 10;
   }
 
@@ -268,7 +268,7 @@ export async function createMatch(
 
     // Create the match
     const { data: match, error } = await (supabase
-      .from('matches') as any)
+      .from('matches') as any) // eslint-disable-line @typescript-eslint/no-explicit-any
       .insert({
         indian_entity_id: entityId,
         investor_id: investorId,
@@ -365,13 +365,15 @@ export async function getMatchAnalytics(): Promise<{
         european_investors (firm_name)
       `)
       .order('created_at', { ascending: false })
-      .limit(10) as { data: Array<{
-        id: string;
-        status: string;
-        created_at: string;
-        indian_entities: { company_name: string } | null;
-        european_investors: { firm_name: string } | null;
-      }> | null };
+      .limit(10) as {
+        data: Array<{
+          id: string;
+          status: string;
+          created_at: string;
+          indian_entities: { company_name: string } | null;
+          european_investors: { firm_name: string } | null;
+        }> | null
+      };
 
     const recentMatches = (recentData || []).map((m) => ({
       id: m.id,

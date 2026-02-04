@@ -39,7 +39,7 @@ export async function getOrCreateProfile(): Promise<ActionResult> {
     const user = await currentUser();
 
     const { data: newProfile, error: insertError } = await (supabase
-      .from('profiles') as any)
+      .from('profiles') as any) // eslint-disable-line @typescript-eslint/no-explicit-any
       .insert({
         clerk_user_id: userId,
         role: 'IndianEntity',
@@ -109,7 +109,7 @@ export async function saveOnboardingData(formData: OnboardingFormData): Promise<
     if (existingEntity) {
       // Update existing entity
       const { error: updateError } = await (supabase
-        .from('indian_entities') as any)
+        .from('indian_entities') as any) // eslint-disable-line @typescript-eslint/no-explicit-any
         .update(entityData)
         .eq('id', existingEntity.id);
 
@@ -120,7 +120,7 @@ export async function saveOnboardingData(formData: OnboardingFormData): Promise<
     } else {
       // Create new entity
       const { error: insertError } = await (supabase
-        .from('indian_entities') as any)
+        .from('indian_entities') as any) // eslint-disable-line @typescript-eslint/no-explicit-any
         .insert(entityData);
 
       if (insertError) {
