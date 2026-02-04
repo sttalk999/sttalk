@@ -1,7 +1,8 @@
 'use server';
 
 import { auth, currentUser } from '@clerk/nextjs/server';
-import { supabase, OnboardingFormData } from '@/lib/supabase';
+import { createServerSupabaseClient } from '@/lib/supabase-server';
+import { OnboardingFormData } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
 
 export interface ActionResult {
@@ -21,12 +22,14 @@ export async function getOrCreateProfile(): Promise<ActionResult> {
   }
 
   try {
+    const supabase = createServerSupabaseClient();
+
     // Check if profile exists
     const { data: existingProfile } = await supabase
       .from('profiles')
       .select('*')
       .eq('clerk_user_id', userId)
-      .single();
+      .single() as { data: { id: string; clerk_user_id: string; role: string } | null };
 
     if (existingProfile) {
       return { success: true, data: existingProfile };
@@ -35,8 +38,8 @@ export async function getOrCreateProfile(): Promise<ActionResult> {
     // Profile doesn't exist, create one
     const user = await currentUser();
 
-    const { data: newProfile, error: insertError } = await supabase
-      .from('profiles')
+    const { data: newProfile, error: insertError } = await (supabase
+      .from('profiles') as any)
       .insert({
         clerk_user_id: userId,
         role: 'IndianEntity',
@@ -70,6 +73,8 @@ export async function saveOnboardingData(formData: OnboardingFormData): Promise<
   }
 
   try {
+    const supabase = createServerSupabaseClient();
+
     // First, ensure profile exists
     const profileResult = await getOrCreateProfile();
     if (!profileResult.success || !profileResult.data) {
@@ -83,7 +88,7 @@ export async function saveOnboardingData(formData: OnboardingFormData): Promise<
       .from('indian_entities')
       .select('id')
       .eq('profile_id', profile.id)
-      .single();
+      .single() as { data: { id: string } | null };
 
     const entityData = {
       profile_id: profile.id,
@@ -103,8 +108,8 @@ export async function saveOnboardingData(formData: OnboardingFormData): Promise<
 
     if (existingEntity) {
       // Update existing entity
-      const { error: updateError } = await supabase
-        .from('indian_entities')
+      const { error: updateError } = await (supabase
+        .from('indian_entities') as any)
         .update(entityData)
         .eq('id', existingEntity.id);
 
@@ -114,8 +119,8 @@ export async function saveOnboardingData(formData: OnboardingFormData): Promise<
       }
     } else {
       // Create new entity
-      const { error: insertError } = await supabase
-        .from('indian_entities')
+      const { error: insertError } = await (supabase
+        .from('indian_entities') as any)
         .insert(entityData);
 
       if (insertError) {
@@ -145,12 +150,14 @@ export async function getCurrentEntity(): Promise<ActionResult> {
   }
 
   try {
+    const supabase = createServerSupabaseClient();
+
     // Get profile
     const { data: profile } = await supabase
       .from('profiles')
       .select('id')
       .eq('clerk_user_id', userId)
-      .single();
+      .single() as { data: { id: string } | null };
 
     if (!profile) {
       return { success: true, data: null };
@@ -161,7 +168,7 @@ export async function getCurrentEntity(): Promise<ActionResult> {
       .from('indian_entities')
       .select('*')
       .eq('profile_id', profile.id)
-      .single();
+      .single() as { data: unknown | null };
 
     return { success: true, data: entity };
   } catch (error) {

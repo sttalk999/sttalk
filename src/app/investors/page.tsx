@@ -2,6 +2,8 @@ import { InvestorDirectory } from '@/components/investors/InvestorDirectory';
 import { Header } from '@/components/ui/Header';
 import { getInvestors, getUserEntityAndMatches } from '@/lib/actions/investors';
 
+export const dynamic = 'force-dynamic';
+
 export default async function InvestorsPage() {
   const [investors, userEntityData] = await Promise.all([
     getInvestors(),
