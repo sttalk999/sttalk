@@ -1,5 +1,4 @@
 import fs from 'fs';
-import { createClient } from '@supabase/supabase-js';
 import pkg from 'pg';
 import dotenv from 'dotenv';
 import path from 'path';

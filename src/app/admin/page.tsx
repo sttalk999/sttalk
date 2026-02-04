@@ -19,7 +19,6 @@ import {
   Building2,
   Handshake,
   MessageSquare,
-  CheckCircle,
   Clock,
   TrendingUp,
   BadgeCheck,
@@ -138,11 +137,10 @@ export default function AdminDashboardPage() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-3 font-semibold capitalize transition-colors ${
-                activeTab === tab
+              className={`px-4 py-3 font-semibold capitalize transition-colors ${activeTab === tab
                   ? 'text-accent border-b-2 border-accent'
                   : 'text-secondary hover:text-primary-text'
-              }`}
+                }`}
             >
               {tab}
             </button>

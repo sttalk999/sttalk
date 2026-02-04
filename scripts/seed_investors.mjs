@@ -28,8 +28,7 @@ function cleanCurrency(value) {
 const results = [];
 
 console.log(`Reading CSV from ${csvPath}...`);
-
-let firstRow = true;
+// Reading CSV
 fs.createReadStream(csvPath)
     .pipe(csv())
     .on('data', (data) => {
@@ -72,7 +71,7 @@ fs.createReadStream(csvPath)
         let successCount = 0;
         for (let i = 0; i < uniqueResults.length; i += chunkSize) {
             const chunk = uniqueResults.slice(i, i + chunkSize);
-            const { data, error } = await supabase
+            const { error } = await supabase
                 .from('european_investors')
                 .insert(chunk)
                 .select();
