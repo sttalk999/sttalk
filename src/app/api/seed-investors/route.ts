@@ -132,7 +132,7 @@ export async function GET(request: Request) {
 
     await new Promise<void>((resolve) => {
       fs.createReadStream(csvPath)
-        .pipe(csvParser({ bom: true }))
+        .pipe(csvParser())
         .on('data', (row) => {
           if (rows.length < 3) {
             rows.push({ keys: Object.keys(row), sample: row });
