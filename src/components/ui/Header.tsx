@@ -33,12 +33,18 @@ export function Header({ variant = 'default' }: HeaderProps) {
             >
               Investors
             </Link>
-            <a href="#" className="hover:text-accent transition-colors">
+            <Link
+              href="/startups"
+              className={`transition-colors ${isActive('/startups') ? 'text-accent' : 'hover:text-accent'}`}
+            >
               Startups
-            </a>
-            <a href="#" className="hover:text-accent transition-colors">
+            </Link>
+            <Link
+              href="/fta-benefits"
+              className={`transition-colors ${isActive('/fta-benefits') ? 'text-accent' : 'hover:text-accent'}`}
+            >
               FTA Benefits
-            </a>
+            </Link>
           </nav>
 
           {/* Auth UI */}

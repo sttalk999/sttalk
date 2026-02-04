@@ -22,9 +22,9 @@ export default function Home() {
             <Link href="/investors" className="px-8 py-4 bg-accent text-white rounded-full font-bold text-lg hover:scale-105 transition-transform text-center">
               Get Funded
             </Link>
-            <button className="px-8 py-4 border-2 border-primary-text text-primary-text rounded-full font-bold text-lg hover:bg-primary-text hover:text-white transition-all">
-              Find Startups
-            </button>
+            <Link href="/startups" className="px-8 py-4 border-2 border-primary-text text-primary-text rounded-full font-bold text-lg hover:bg-primary-text hover:text-white transition-all text-center">
+              For Startups
+            </Link>
           </div>
         </section>
 
